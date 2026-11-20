@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:max(env(safe-area-inset-top,0px),var(--safe-area-inset-top,0px));padding-bottom:max(env(safe-area-inset-bottom,0px),var(--safe-area-inset-bottom,0px))}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>Huzur</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,7 +94,7 @@
     transform: translateY(-70%) rotate(45deg);
     pointer-events: none;
   }
-  .date { margin: 0; font-size: 0.9rem; color: var(--muted); text-align: right; }
+  .date { margin: 0; font-size: 0.9rem; color: var(--muted); text-align: right; white-space: pre-line; }
 
   .hero { padding: 28px 0 24px; }
   .hero .label { margin: 0; font-size: 0.85rem; color: var(--muted); }
@@ -172,9 +172,52 @@
   .source { margin: 12px 0 0; color: var(--muted); font-size: 0.92rem; }
   .disclaimer { margin: 18px 0 0; font-size: 0.8rem; color: var(--muted); }
 
+  /* Takvim */
+  .hicri { margin: 6px 0 0; font-family: var(--ff-display); font-weight: 600; font-size: clamp(1.9rem, 9vw, 2.5rem); line-height: 1.15; color: var(--accent); }
+  .miladi { margin: 6px 0 0; color: var(--muted); }
+  .sec { margin: 28px 0 8px; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .drow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+  .drow .dname { display: block; font-size: 1.05rem; }
+  .drow .ddate { display: block; font-size: 0.85rem; color: var(--muted); }
+  .drow .dleft { font-family: var(--ff-display); font-weight: 500; font-size: 1.1rem; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+  .drow.is-soon .dleft, .drow.is-soon .dname { color: var(--accent); }
+  .drow.is-soon .dname { font-weight: 600; }
+  .adjchips { padding: 0; }
+
+  /* Zikir geçmişi */
+  .zstats { margin-top: 22px; border-top: 1px solid var(--line); }
+  .zstats .sec { margin-top: 18px; }
+  .goalrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+  .goalrow strong { font-family: var(--ff-display); font-weight: 600; font-size: 1.9rem; }
+  .gbar { height: 8px; border-radius: 4px; background: var(--line); margin-top: 8px; overflow: hidden; }
+  .gfill { height: 100%; width: 0; background: var(--accent); border-radius: 4px; transition: width 0.2s; }
+  .week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; height: 104px; margin-top: 18px; }
+  .wcol { display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; min-width: 0; }
+  .wtrack { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; min-height: 0; }
+  .wbar { width: 100%; max-width: 26px; min-height: 3px; border-radius: 3px; background: var(--line); }
+  .wbar.has { background: var(--accent); opacity: 0.5; }
+  .wbar.today.has { opacity: 1; }
+  .wlab { font-size: 0.7rem; color: var(--muted); }
+  .wcol.is-today .wlab { color: var(--accent); font-weight: 600; }
+  .goals { margin-top: 14px; justify-content: center; }
+
+  /* Açılış (Besmele) */
+  .intro { position: fixed; inset: 0; z-index: 50; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px 16px; background: var(--accent); color: var(--accent-ink); text-align: center; cursor: pointer; transition: opacity 0.4s ease; }
+  .intro.bye { opacity: 0; }
+  .bism { margin: 0; font-family: var(--ff-ar); font-size: clamp(2.3rem, 11vw, 3.4rem); line-height: 1.9; animation: bismIn 1.4s ease-out both; }
+  .bismtr { margin: 6px 0 0; font-family: var(--ff-display); font-weight: 500; font-size: 1.25rem; animation: fadeIn 1s ease 0.9s both; }
+  .bismmean { margin: 0; font-size: 1rem; opacity: 0.85; animation: fadeIn 1s ease 1.3s both; }
+  @keyframes bismIn { from { opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .bism, .bismtr, .bismmean { animation: none; }
+    .intro { transition: none; }
+  }
+  .vactions { display: flex; flex-wrap: wrap; gap: 0 8px; }
+
   /* Alt sekmeler */
   .tabbar { flex: none; border-top: 1px solid var(--line); background: var(--bg); }
-  .tabs { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); }
   .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0 8px; min-height: 56px; color: var(--muted); text-decoration: none; font-size: 0.78rem; }
   .tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .tab[aria-current="page"] { color: var(--accent); font-weight: 600; }
@@ -208,7 +251,8 @@
         <p class="when"><span class="time" id="nextTime"></span><span class="left" id="countdown"></span></p>
       </div>
       <ol class="list" id="list"></ol>
-      <label class="notifrow" id="notifrow" hidden><span>Ezan bildirimi</span><input type="checkbox" id="notif"></label>
+      <label class="notifrow" id="notifrow" hidden><span>Ezan bildirimi (titreşimli)</span><input type="checkbox" id="notif"></label>
+      <label class="notifrow" id="notifrow2" hidden><span>Bildirim çubuğunda ayet</span><input type="checkbox" id="notifayet"></label>
       <p class="note">Vakitler Diyanet (Türkiye) yöntemiyle hesaplanır. İlçeye göre bir iki dakika fark olabilir; kesin vakit için Diyanet takvimine bakın.</p>
     </section>
 
@@ -232,15 +276,39 @@
         <div class="chips" id="targets" role="group" aria-label="Hedef"></div>
         <button class="textbtn" id="zreset" type="button">Sıfırla</button>
       </div>
+      <div class="zstats">
+        <h2 class="sec">Bugün</h2>
+        <div class="goalrow">
+          <span><strong id="stToday">0</strong> <span class="muted">/ <span id="stGoal">100</span></span></span>
+          <span class="muted" id="stStreak"></span>
+        </div>
+        <div class="gbar" id="gbar" role="progressbar" aria-label="Günlük hedef" aria-valuemin="0" aria-valuemax="100"><div class="gfill" id="gfill"></div></div>
+        <div class="week" id="week" role="img" aria-label="Son 7 günün zikir sayısı"></div>
+        <div class="chips goals" id="goals" role="group" aria-label="Günlük hedef"></div>
+      </div>
     </section>
 
-    <section id="screen-ayet" aria-label="Günün ayeti veya duası" hidden>
-      <p class="kind" id="kind">Günün ayeti</p>
+    <section id="screen-ayet" aria-label="Ayet veya dua" hidden>
+      <p class="kind" id="kind">Ayet</p>
       <p class="arabic" id="arabic" lang="ar" dir="rtl"></p>
       <p class="meaning" id="meaning"></p>
       <p class="source" id="source"></p>
-      <button class="textbtn" id="copy" type="button" style="padding-left:0">Kopyala</button>
+      <div class="vactions">
+        <button class="textbtn" id="copy" type="button" style="padding-left:0">Kopyala</button>
+        <button class="textbtn" id="another" type="button">Başka bir ayet</button>
+      </div>
       <p class="disclaimer">Anlamlar kısa ve sade bir Türkçe karşılıktır, resmî meal yerine geçmez. Ayrıntı için güvendiğiniz bir meale bakın.</p>
+    </section>
+
+    <section id="screen-takvim" aria-label="Hicri takvim ve dini günler" hidden>
+      <p class="kind">Hicri tarih</p>
+      <h1 class="hicri" id="hicri"></h1>
+      <p class="miladi" id="miladi"></p>
+      <h2 class="sec">Yaklaşan günler</h2>
+      <ol class="list" id="days"></ol>
+      <h2 class="sec">Hicri tarih ayarı</h2>
+      <div class="chips adjchips" id="adjs" role="group" aria-label="Hicri tarih ayarı"></div>
+      <p class="note">Tarihler hesaplanır ve Diyanet’in yayınladığı birçok tarihle karşılaştırılmıştır. Ay’ın görülmesine göre bir gün sapabilir. Fark görürsen yukarıdan ayarlayabilirsin. Kandiller, gecenin başladığı akşamın tarihiyle gösterilir.</p>
     </section>
 
   </div>
@@ -253,6 +321,10 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
         <span>Vakitler</span>
       </a>
+      <a class="tab" id="tab-takvim" href="#takvim">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>
+        <span>Takvim</span>
+      </a>
       <a class="tab" id="tab-zikir" href="#zikir">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="2.5" fill="currentColor"></circle></svg>
         <span>Zikir</span>
@@ -264,6 +336,12 @@
     </div>
   </div>
 </nav>
+
+<div class="intro" id="intro" aria-hidden="true">
+  <p class="bism" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+  <p class="bismtr">Bismillâhirrahmânirrahîm</p>
+  <p class="bismmean">Rahman ve Rahim olan Allah’ın adıyla</p>
+</div>
 
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -340,6 +418,60 @@ function computeDay(y, mo, d, lat, lng, tz) {
 }
 /*CALC_END*/
 
+/*HIJRI_START*/
+const HIJRI_MONTHS = ["Muharrem", "Safer", "Rebiülevvel", "Rebiülahir", "Cemaziyelevvel", "Cemaziyelahir", "Receb", "Şaban", "Ramazan", "Şevval", "Zilkade", "Zilhicce"];
+const HIJRI_FMT = (function () {
+  try {
+    return new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", { day: "numeric", month: "numeric", year: "numeric", timeZone: "UTC" });
+  } catch (e) { return null; }
+})();
+const HIJRI_OK = !!HIJRI_FMT && HIJRI_FMT.resolvedOptions().calendar === "islamic-umalqura";
+
+// dayNum: Türkiye takvim günü (1970'ten beri gün sayısı). offset: -1, 0 veya +1 gün düzeltme.
+function hijriOf(dayNum, offset) {
+  const parts = HIJRI_FMT.formatToParts(new Date((dayNum + (offset || 0)) * 86400000 + 43200000));
+  const o = {};
+  parts.forEach(p => {
+    if (p.type === "day" || p.type === "month" || p.type === "year") o[p.type] = parseInt(p.value, 10);
+  });
+  return o;
+}
+
+// night: kandil gecesi. Gece, hicri günün bir önceki akşamı başlar; bu yüzden tarih bir gün önceki takvim günüdür.
+const DINI_GUNLER = [
+  { n: "Hicri yılbaşı", m: 1, d: 1 },
+  { n: "Aşure günü", m: 1, d: 10 },
+  { n: "Mevlid Kandili", m: 3, d: 12, night: true },
+  { n: "Regaib Kandili", m: 7, fri: true, night: true },
+  { n: "Miraç Kandili", m: 7, d: 27, night: true },
+  { n: "Berat Kandili", m: 8, d: 15, night: true },
+  { n: "Ramazan başlangıcı", m: 9, d: 1 },
+  { n: "Kadir Gecesi", m: 9, d: 27, night: true },
+  { n: "Ramazan Bayramı", m: 10, d: 1 },
+  { n: "Kurban Bayramı", m: 12, d: 10 }
+];
+
+function upcomingDays(todayNum, offset, limit) {
+  const out = [];
+  for (let i = 0; i <= 420; i++) {
+    const day = todayNum + i;
+    const h = hijriOf(day, offset);
+    const wd = new Date(day * 86400000).getUTCDay();
+    DINI_GUNLER.forEach(e => {
+      if (e.fri) {
+        if (wd === 5 && h.month === e.m && h.day <= 7 && day - 1 >= todayNum) out.push({ n: e.n, date: day - 1, night: true });
+      } else if (e.night) {
+        if (h.month === e.m && h.day === e.d - 1) out.push({ n: e.n, date: day, night: true });
+      } else if (h.month === e.m && h.day === e.d) {
+        out.push({ n: e.n, date: day, night: false });
+      }
+    });
+  }
+  out.sort((a, b) => a.date - b.date);
+  return out.slice(0, limit);
+}
+/*HIJRI_END*/
+
 const TZ = 3; // Türkiye sabit UTC+3
 const NAMES = ["İmsak", "Güneş", "Öğle", "İkindi", "Akşam", "Yatsı"];
 const MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
@@ -396,7 +528,19 @@ const VERSES = [
   { kind: "ayet", src: "Zümer, 39/53", ar: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ", tr: "De ki: Kendi aleyhlerine ölçüyü aşan kullarım! Allah’ın rahmetinden ümidinizi kesmeyin." },
   { kind: "ayet", src: "İhlâs, 112/1-4", ar: "قُلْ هُوَ اللَّهُ أَحَدٌ اللَّهُ الصَّمَدُ لَمْ يَلِدْ وَلَمْ يُولَدْ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", tr: "De ki: O, Allah’tır, bir tektir. Allah sameddir, her şey O’na muhtaçtır. Doğurmamış ve doğmamıştır. Hiçbir şey O’na denk değildir." },
   { kind: "dua", src: "Hadis, Buhârî", ar: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", tr: "Allah’ım! Üzüntüden ve kederden sana sığınırım." },
-  { kind: "dua", src: "Hadis, Ebû Dâvûd ve Nesâî", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allah’ım! Seni anmam, sana şükretmem ve sana güzelce ibadet etmem için bana yardım et." }
+  { kind: "dua", src: "Hadis, Ebû Dâvûd ve Nesâî", ar: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", tr: "Allah’ım! Seni anmam, sana şükretmem ve sana güzelce ibadet etmem için bana yardım et." },
+  { kind: "ayet", src: "Fâtiha, 1/2", ar: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", tr: "Hamd, âlemlerin Rabbi Allah’a mahsustur." },
+  { kind: "ayet", src: "Felak, 113/1-5", ar: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِن شَرِّ مَا خَلَقَ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", tr: "De ki: Sabahın Rabbine sığınırım; yarattığı şeylerin şerrinden, karanlığı çöktüğü zaman gecenin şerrinden, düğümlere üfleyenlerin şerrinden ve haset ettiği zaman hasetçinin şerrinden." },
+  { kind: "ayet", src: "Nâs, 114/1-6", ar: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ مِنَ الْجِنَّةِ وَالنَّاسِ", tr: "De ki: İnsanların Rabbine, insanların Melik’ine, insanların İlahı’na sığınırım; sinsi vesvesecinin şerrinden. O ki insanların kalplerine vesvese verir; cinlerden de insanlardan da." },
+  { kind: "dua", src: "Kehf, 18/10", ar: "رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا", tr: "Rabbimiz! Bize katından bir rahmet ver ve işimizde bize doğruyu kolaylaştır." },
+  { kind: "dua", src: "Kasas, 28/24", ar: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", tr: "Rabbim! Bana indireceğin her türlü hayra ihtiyacım var." },
+  { kind: "ayet", src: "Hûd, 11/88", ar: "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ", tr: "Başarım ancak Allah’ın yardımıyladır. Ben ancak O’na güvendim ve ancak O’na yönelirim." },
+  { kind: "ayet", src: "Mü’min, 40/60", ar: "وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ", tr: "Rabbiniz şöyle dedi: Bana dua edin, size karşılık vereyim." },
+  { kind: "ayet", src: "Âl-i İmrân, 3/159", ar: "فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى اللَّهِ ۚ إِنَّ اللَّهَ يُحِبُّ الْمُتَوَكِّلِينَ", tr: "Karar verdiğin zaman artık Allah’a güven. Şüphesiz Allah, kendisine güvenenleri sever." },
+  { kind: "ayet", src: "Rahmân, 55/13", ar: "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ", tr: "O halde Rabbinizin hangi nimetini yalanlarsınız?" },
+  { kind: "ayet", src: "İbrâhîm, 14/7", ar: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", tr: "Eğer şükrederseniz, elbette size nimetimi artırırım." },
+  { kind: "ayet", src: "Nahl, 16/128", ar: "إِنَّ اللَّهَ مَعَ الَّذِينَ اتَّقَوا وَّالَّذِينَ هُم مُّحْسِنُونَ", tr: "Şüphesiz Allah, takva sahipleriyle ve iyilik edenlerle beraberdir." },
+  { kind: "ayet", src: "Hadîd, 57/4", ar: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ", tr: "Nerede olursanız olun, O sizinle beraberdir." }
 ];
 
 (function () {
@@ -500,16 +644,23 @@ const VERSES = [
   }
 
   function renderVakitler() {
-    $("date").textContent = dateLabel(trNow().dayNum);
+    $("date").textContent = dateLabel(trNow().dayNum) + (HIJRI_OK ? "\n" + hijriText(trNow().dayNum) : "");
     buildRows();
     tick();
   }
 
-  /* ---------- Günün ayeti ---------- */
+  /* ---------- Ayet ve dua: her açılışta yeni ---------- */
+  let verseIdx = 0;
+  function pickVerse() {
+    const last = store.get("huzur.verseIdx", -1);
+    let i = Math.floor(Math.random() * VERSES.length);
+    if (VERSES.length > 1 && i === last) i = (last + 1 + Math.floor(Math.random() * (VERSES.length - 1))) % VERSES.length;
+    verseIdx = i;
+    store.set("huzur.verseIdx", i);
+  }
   function renderVerse() {
-    const day = trNow().dayNum;
-    const v = VERSES[((day % VERSES.length) + VERSES.length) % VERSES.length];
-    $("kind").textContent = v.kind === "ayet" ? "Günün ayeti" : "Günün duası";
+    const v = VERSES[verseIdx];
+    $("kind").textContent = v.kind === "ayet" ? "Ayet" : "Dua";
     $("arabic").textContent = v.ar;
     $("meaning").textContent = v.tr;
     $("source").textContent = v.src;
@@ -586,7 +737,9 @@ const VERSES = [
     const next = (z.c[z.p] || 0) + 1;
     z.c[z.p] = next;
     saveZ();
+    addLog();
     renderZikir();
+    renderStats();
     buzz(z.t > 0 && next % z.t === 0 ? [30, 50, 30] : 8);
   });
 
@@ -609,8 +762,143 @@ const VERSES = [
     }
   });
 
+  /* ---------- Takvim ve dini günler ---------- */
+  let hijriOffset = store.get("huzur.hijriOffset", 0);
+  if ([-1, 0, 1].indexOf(hijriOffset) < 0) hijriOffset = 0;
+  const ADJ = [[-1, "1 gün geri"], [0, "Ayarsız"], [1, "1 gün ileri"]];
+
+  function hijriText(dayNum) {
+    const h = hijriOf(dayNum, hijriOffset);
+    return h.day + " " + HIJRI_MONTHS[h.month - 1] + " " + h.year;
+  }
+  function shortDate(dayNum) {
+    const dt = new Date(dayNum * 86400000);
+    return dt.getUTCDate() + " " + MONTHS[dt.getUTCMonth()] + ", " + WEEKDAYS[dt.getUTCDay()];
+  }
+  function fullDate(dayNum) {
+    const dt = new Date(dayNum * 86400000);
+    return WEEKDAYS[dt.getUTCDay()] + ", " + dt.getUTCDate() + " " + MONTHS[dt.getUTCMonth()] + " " + dt.getUTCFullYear();
+  }
+  function buildAdj() {
+    const box = $("adjs");
+    box.innerHTML = "";
+    ADJ.forEach(a => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = a[1];
+      b.addEventListener("click", () => {
+        hijriOffset = a[0];
+        store.set("huzur.hijriOffset", hijriOffset);
+        renderTakvim();
+        renderVakitler();
+      });
+      box.appendChild(b);
+    });
+  }
+  function renderTakvim() {
+    const list = $("days");
+    list.innerHTML = "";
+    if (!HIJRI_OK) {
+      $("hicri").textContent = "Desteklenmiyor";
+      $("miladi").textContent = "Bu telefonun hicri takvim desteği yok.";
+      return;
+    }
+    const today = trNow().dayNum;
+    $("hicri").textContent = hijriText(today);
+    $("miladi").textContent = fullDate(today);
+    upcomingDays(today, hijriOffset, 6).forEach(e => {
+      const left = e.date - today;
+      const li = document.createElement("li");
+      li.className = "drow" + (left <= 7 ? " is-soon" : "");
+      const l = document.createElement("span");
+      const n = document.createElement("span");
+      n.className = "dname";
+      n.textContent = e.n;
+      const d = document.createElement("span");
+      d.className = "ddate";
+      d.textContent = shortDate(e.date) + (e.night ? " akşamı" : "");
+      l.appendChild(n);
+      l.appendChild(d);
+      const r = document.createElement("span");
+      r.className = "dleft";
+      r.textContent = left === 0 ? (e.night ? "Bu akşam" : "Bugün") : left === 1 ? (e.night ? "Yarın akşam" : "Yarın") : left + " gün";
+      li.appendChild(l);
+      li.appendChild(r);
+      list.appendChild(li);
+    });
+    Array.prototype.forEach.call($("adjs").children, (b, i) => b.setAttribute("aria-pressed", String(ADJ[i][0] === hijriOffset)));
+  }
+
+  /* ---------- Zikir geçmişi ve günlük hedef ---------- */
+  const GOALS = [100, 300, 500, 1000];
+  const SHORT_WD = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+  let zlog = store.get("huzur.zlog", {});
+  if (!zlog || typeof zlog !== "object" || Array.isArray(zlog)) zlog = {};
+  let zgoal = store.get("huzur.zgoal", 100);
+  if (GOALS.indexOf(zgoal) < 0) zgoal = 100;
+  const dayKey = n => new Date(n * 86400000).toISOString().slice(0, 10);
+
+  function addLog() {
+    const k = dayKey(trNow().dayNum);
+    zlog[k] = (zlog[k] || 0) + 1;
+    const keys = Object.keys(zlog).sort();
+    while (keys.length > 60) delete zlog[keys.shift()];
+    store.set("huzur.zlog", zlog);
+  }
+  function buildGoals() {
+    const box = $("goals");
+    box.innerHTML = "";
+    GOALS.forEach(g => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = "Hedef " + g;
+      b.addEventListener("click", () => { zgoal = g; store.set("huzur.zgoal", g); renderStats(); });
+      box.appendChild(b);
+    });
+  }
+  function renderStats() {
+    const today = trNow().dayNum;
+    const n = zlog[dayKey(today)] || 0;
+    $("stToday").textContent = String(n);
+    $("stGoal").textContent = String(zgoal);
+    const pct = Math.min(100, Math.round(n / zgoal * 100));
+    $("gfill").style.width = pct + "%";
+    $("gbar").setAttribute("aria-valuenow", String(pct));
+
+    let streak = 0, d = today;
+    if (!(zlog[dayKey(d)] > 0)) d -= 1;
+    while (zlog[dayKey(d)] > 0) { streak++; d--; }
+    $("stStreak").textContent = streak > 0 ? "Seri: " + streak + " gün" : "";
+
+    let max = zgoal;
+    for (let i = 6; i >= 0; i--) max = Math.max(max, zlog[dayKey(today - i)] || 0);
+    const week = $("week");
+    week.innerHTML = "";
+    for (let i = 6; i >= 0; i--) {
+      const day = today - i;
+      const c = zlog[dayKey(day)] || 0;
+      const col = document.createElement("div");
+      col.className = "wcol" + (i === 0 ? " is-today" : "");
+      const track = document.createElement("div");
+      track.className = "wtrack";
+      const bar = document.createElement("div");
+      bar.className = "wbar" + (c > 0 ? " has" : "") + (i === 0 ? " today" : "");
+      bar.style.height = c > 0 ? Math.max(4, Math.round(c / max * 100)) + "%" : "3px";
+      const lab = document.createElement("div");
+      lab.className = "wlab";
+      lab.textContent = SHORT_WD[new Date(day * 86400000).getUTCDay()];
+      track.appendChild(bar);
+      col.appendChild(track);
+      col.appendChild(lab);
+      week.appendChild(col);
+    }
+    Array.prototype.forEach.call($("goals").children, (b, i) => b.setAttribute("aria-pressed", String(GOALS[i] === zgoal)));
+  }
+
   /* ---------- Sekmeler ---------- */
-  const TABS = ["vakitler", "zikir", "ayet"];
+  const TABS = ["vakitler", "takvim", "zikir", "ayet"];
   function show(name) {
     if (TABS.indexOf(name) < 0) name = "vakitler";
     TABS.forEach(t => {
@@ -642,7 +930,7 @@ const VERSES = [
   async function scheduleNotifs() {
     await clearNotifs();
     try {
-      await LN.createChannel({ id: "ezan", name: "Namaz vakitleri", description: "Vakit girince bildirim", importance: 4, visibility: 1 });
+      await LN.createChannel({ id: "ezan2", name: "Namaz vakitleri", description: "Vakit girince titreşimli bildirim", importance: 5, visibility: 1, vibration: true });
     } catch (e) {}
     const nowMs = Date.now();
     const today = trNow().dayNum;
@@ -656,7 +944,7 @@ const VERSES = [
             id: d * 10 + i + 1,
             title: NAMES[i] + " vakti",
             body: CITIES[cityIdx][0] + " için " + NAMES[i] + " vakti girdi (" + fmt(t[i]) + ")",
-            channelId: "ezan",
+            channelId: "ezan2",
             schedule: { at: new Date(at), allowWhileIdle: true }
           });
         }
@@ -668,7 +956,7 @@ const VERSES = [
     const perm = await LN.requestPermissions();
     if (perm.display !== "granted") return false;
     try {
-      await LN.createChannel({ id: "ezan", name: "Namaz vakitleri", description: "Vakit girince bildirim", importance: 4, visibility: 1 });
+      await LN.createChannel({ id: "ezan2", name: "Namaz vakitleri", description: "Vakit girince titreşimli bildirim", importance: 5, visibility: 1, vibration: true });
     } catch (e) {}
     await scheduleNotifs();
     return true;
@@ -700,6 +988,51 @@ const VERSES = [
       }
     });
     if (box.checked) scheduleNotifs().catch(() => {});
+    try { LN.deleteChannel({ id: "ezan" }); } catch (e) {}
+
+    const ab = $("notifayet");
+    $("notifrow2").hidden = false;
+    ab.checked = !!store.get("huzur.notifAyet", false);
+    ab.addEventListener("change", async () => {
+      try {
+        if (ab.checked) {
+          const perm = await LN.requestPermissions();
+          if (perm.display !== "granted") { ab.checked = false; toast("Bildirim izni verilmedi."); return; }
+          store.set("huzur.notifAyet", true);
+          await postVerseNotif();
+          toast("Ayet bildirimi açıldı");
+        } else {
+          store.set("huzur.notifAyet", false);
+          await LN.cancel({ notifications: [{ id: AYET_ID }] });
+          toast("Ayet bildirimi kapatıldı");
+        }
+      } catch (e) {
+        ab.checked = false;
+        store.set("huzur.notifAyet", false);
+        toast("Bildirim ayarlanamadı.");
+      }
+    });
+  }
+
+  /* ---------- Bildirim çubuğunda ayet ---------- */
+  const AYET_ID = 9001;
+  async function postVerseNotif() {
+    if (!LN || !store.get("huzur.notifAyet", false)) return;
+    const v = VERSES[verseIdx];
+    try {
+      await LN.createChannel({ id: "ayet", name: "Ayet ve dua", description: "Bildirim çubuğunda ayet", importance: 2, visibility: 1, vibration: false });
+    } catch (e) {}
+    try {
+      await LN.schedule({ notifications: [{
+        id: AYET_ID,
+        title: (v.kind === "ayet" ? "Ayet" : "Dua") + " · " + v.src,
+        body: v.tr,
+        largeBody: v.ar + "\n" + v.tr,
+        channelId: "ayet",
+        ongoing: true,
+        autoCancel: false
+      }] });
+    } catch (e) {}
   }
 
   /* ---------- Diğer ---------- */
@@ -709,6 +1042,7 @@ const VERSES = [
     renderVakitler();
     rescheduleIfOn();
   });
+  $("another").addEventListener("click", () => { pickVerse(); renderVerse(); postVerseNotif(); });
   $("copy").addEventListener("click", async () => {
     const text = $("arabic").textContent + "\n" + $("meaning").textContent + "\n(" + $("source").textContent + ")";
     try {
@@ -722,15 +1056,44 @@ const VERSES = [
   buildSelect();
   buildChips();
   renderVakitler();
+  pickVerse();
   renderVerse();
   renderZikir();
+  buildGoals();
+  buildAdj();
+  renderStats();
+  renderTakvim();
   show(location.hash.replace("#", ""));
   initNotif();
+  postVerseNotif();
+
+  // Uygulamaya her dönüşte yeni ayet (3 saniyeden uzun arka planda kalındıysa)
+  let hiddenAt = 0;
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { hiddenAt = Date.now(); return; }
+    if (hiddenAt && Date.now() - hiddenAt > 3000) {
+      hiddenAt = 0;
+      pickVerse();
+      renderVerse();
+      postVerseNotif();
+    }
+  });
+
+  // Besmele açılış animasyonu
+  const intro = $("intro");
+  function endIntro() {
+    if (intro.hidden) return;
+    intro.classList.add("bye");
+    setTimeout(() => { intro.hidden = true; }, 420);
+  }
+  intro.addEventListener("click", endIntro);
+  const calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  setTimeout(endIntro, calm ? 1200 : 2800);
 
   let lastDay = trNow().dayNum;
   setInterval(() => {
     const d = trNow().dayNum;
-    if (d !== lastDay) { lastDay = d; renderVakitler(); renderVerse(); } else { tick(); }
+    if (d !== lastDay) { lastDay = d; renderVakitler(); renderVerse(); renderStats(); renderTakvim(); } else { tick(); }
   }, 1000);
 })();
 </script>

@@ -1,5 +1,11 @@
 {
-  "appId": "com.huzur.app",
+  "appId": "com.huzurnamazvakti.app",
   "appName": "Huzur",
-  "webDir": "www"
+  "webDir": "www",
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_huzur",
+      "iconColor": "#1F7A68"
+    }
+  }
 }
