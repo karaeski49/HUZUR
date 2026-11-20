@@ -1,4 +1,4 @@
-name: APK derle
+name: APK derle (deneme)
 
 on:
   push:
@@ -12,12 +12,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Paketleri kur
         run: npm install
@@ -30,11 +30,34 @@ jobs:
       - name: Android projesini oluştur
         run: |
           npx cap add android
+
+      - name: İkonları üret
+        continue-on-error: true
+        run: |
+          npx @capacitor/assets generate --android
+
+      - name: Android projesini eşitle
+        run: |
           npx cap sync android
+
+      - name: Bildirim simgesini ekle
+        run: |
+          mkdir -p android/app/src/main/res/drawable
+          cat > android/app/src/main/res/drawable/ic_stat_huzur.xml <<'EOF'
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="24dp"
+              android:height="24dp"
+              android:viewportWidth="24"
+              android:viewportHeight="24">
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M12,3 A9,9 0 1,0 21,12 A7,7 0 0,1 12,3 Z" />
+          </vector>
+          EOF
 
       - name: Bildirim izinlerini ekle
         run: |
-          sed -i 's|</manifest>|    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n</manifest>|' android/app/src/main/AndroidManifest.xml
+          sed -i 's|</manifest>|    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n</manifest>|' android/app/src/main/AndroidManifest.xml
 
       - name: APK derle
         run: |
